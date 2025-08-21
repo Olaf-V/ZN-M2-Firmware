@@ -1,1 +1,28 @@
+name: Clear Build Cache
+on:
+  workflow_dispatch:
+jobs:
+  clear:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - name: Clear OpenWrt Source Directory
+        run: |
+          sudo rm -rf openwrt
+          echo "OpenWrt source directory cleared."
+
+      - name: Show Disk Space After Cleanup
+        run: df -hT
